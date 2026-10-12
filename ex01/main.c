@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyril <cyril@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cycolonn <cycolonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/05 10:52:29 by cycolonn          #+#    #+#             */
-/*   Updated: 2026/10/12 00:32:00 by cyril            ###   ########.fr       */
+/*   Updated: 2026/10/12 15:04:44 by cycolonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,17 @@ void uart_printstr(const char* str)
 
 void watchdog_2s(void)
 {
+    /* enable watchdog (cf p.64) */
     WDTCSR |= (1 << WDCE) | (1 << WDE);
 
-    WDTCSR = (1 << WDE) | (1 << WDP2) | (1 << WDP1);
+    /* set the timeout signal (cf p.64)*/
+    WDTCSR = (1 << WDE) | (1 << WDP2) | (1 << WDP1) | (1 << WDP0);
 }
 
 int main(void)
 {
     uart_init();
-    uart_printstr("Hello World!");
-    watchdog_2s();
-    
+    uart_printstr("Hello World!\r\n");
+    watchdog_2s(); 
     while (1);
 }
